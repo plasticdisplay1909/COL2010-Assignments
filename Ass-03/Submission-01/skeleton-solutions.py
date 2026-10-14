@@ -109,10 +109,61 @@ def build_assignment_indicator_matrix(X: np.ndarray, C: np.ndarray) -> np.ndarra
 # res=build_assignment_indicator_matrix(X,C)
 
 
-
+# -------------------------     Q-3          -----------------------------------
 def update_cluster_centroids(X: np.ndarray, assignments: np.ndarray, K: int) -> np.ndarray:
-    # TODO Task 3
-    raise NotImplementedError
+    N,D=X.shape
+    "Case when assignment is already as cluster"
+    if assignments.ndim==1:
+        tmp=[[0]*K for _ in range(N)]
+
+        for i in range(N):
+            tmp[i][assignments[i]]=1
+
+        assignments=np.array(tmp)
+    
+    "Calculating number of points in each cluster"
+    points=[0]*K
+    for i in range(N):
+        for j in range(K):
+            points[j]+=assignments[i][j]
+    # print(points)
+
+
+    "Calculating global mean"
+    mean=[0]*D
+    for i in range(N):
+        for j in range(D):
+            mean[j]+=X[i][j]
+    # print(mean)
+    for i in range(D): mean[i]/=N
+
+    "Calculating centres"
+    centres=[[0]*D for _ in range(K)]
+
+    for i in range(N):
+        for j in range(K):
+            for k in range(D):
+                centres[j][k] +=assignments[i][j] * X[i][k]
+
+    "Calculating mean for each centres"
+    for i in range(K):
+        if points[i]==0:
+            "Case of empty cluster"
+            centres[i]=mean.copy()
+        else:
+            for j in range(D):
+                centres[i][j]/=points[i]
+
+    centres=np.array(centres,float)
+    # print(centres)
+    return centres
+
+
+## ---- Testing Task-03     -----
+# X,ass,K=get_task3_inputs()
+# print(f"X:{X}\nassignments:{ass}\nK:{K}")
+# update_cluster_centroids(X,ass,K)
+
 
 
 def compute_kmeans_distortion(X: np.ndarray, C: np.ndarray, labels: np.ndarray) -> float:
