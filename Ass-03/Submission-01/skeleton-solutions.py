@@ -165,15 +165,26 @@ def update_cluster_centroids(X: np.ndarray, assignments: np.ndarray, K: int) -> 
 # update_cluster_centroids(X,ass,K)
 
 
-
+# -------------------------     Q-4          -----------------------------------
 def compute_kmeans_distortion(X: np.ndarray, C: np.ndarray, labels: np.ndarray) -> float:
-    # TODO Task 4
-    raise NotImplementedError
+    N,D=X.shape
+    K=C.shape[0]
 
+    J=0
+    for i in range(N):
+        J+=float(calculate_squared_euclidean_distance(X[i],C[labels[i]]))
+        # print(J)
+    # print(J)
+    return J
+
+## ---- Testing Task-03     -----
+# X,C,labels=get_task4_inputs()
+# compute_kmeans_distortion(X,C,labels)
 
 def initialize_kmeans_plus_plus(X: np.ndarray, K: int, seed: int = 42) -> np.ndarray:
-    # TODO Task 5
-    raise NotImplementedError
+    rng=np.random.default_rng(seed)     #
+
+
 
 
 def mini_batch_centroid_update(X: np.ndarray, C: np.ndarray, batch_indices: np.ndarray, counts: np.ndarray) -> tuple:
