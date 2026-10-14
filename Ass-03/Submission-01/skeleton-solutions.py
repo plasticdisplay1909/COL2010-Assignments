@@ -222,27 +222,85 @@ def mini_batch_centroid_update(X: np.ndarray, C: np.ndarray, batch_indices: np.n
     return (C,counts)
 
 ## ---- Testing Task-06     -----
-X,C,idx,count=get_task6_inputs()
-mini_batch_centroid_update(X,C,idx,count)
+# X,C,idx,count=get_task6_inputs()
+# mini_batch_centroid_update(X,C,idx,count)
 
 # print(f"{X.shape,C.shape,idx,count}")
 
-
-
-
+# -------------------------     Q-7          -----------------------------------
 def compute_single_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int, b: int) -> float:
-    # TODO Task 7
-    raise NotImplementedError
+    clustera=[]
+    clusterb=[]
 
+    "Collecting points from cluster"
+    N=X.shape[0]
+    for i in range(N):
+        if labels[i]==a: clustera.append(X[i].copy())
+        elif labels[i]==b: clusterb.append(X[i].copy())
 
+    "Computing minimum distance"
+    min_dist=float('inf')
+    A,B=len(clustera),len(clusterb)
+
+    for i in range(A):
+        for j in range(B):
+            dist=float(np.sqrt(calculate_squared_euclidean_distance(clustera[i],clusterb[j])))
+            min_dist=min(dist,min_dist)
+
+    return min_dist
+
+## ---- Testing Task-07     -----
+X,labels,a,b=get_task7_inputs()
+# print(f"{X.shape,labels,a,b}")
+print(X)
+compute_single_linkage_distance(X,labels,a,b)
+
+# -------------------------     Q-8          -----------------------------------
 def compute_complete_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int, b: int) -> float:
-    # TODO Task 8
-    raise NotImplementedError
+    clustera=[]
+    clusterb=[]
 
+    "Collecting points from cluster"
+    N=X.shape[0]
+    for i in range(N):
+        if labels[i]==a: clustera.append(X[i].copy())
+        elif labels[i]==b: clusterb.append(X[i].copy())
 
+    "Computing maximum distance"
+    max_dist=-float('inf')
+    A,B=len(clustera),len(clusterb)
+
+    for i in range(A):
+        for j in range(B):
+            dist=float(np.sqrt(calculate_squared_euclidean_distance(clustera[i],clusterb[j])))
+            max_dist=max(dist,max_dist)
+
+    return max_dist
+
+    
+
+# -------------------------     Q-9          -----------------------------------
 def compute_average_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int, b: int) -> float:
-    # TODO Task 9
-    raise NotImplementedError
+    clustera=[]
+    clusterb=[]
+
+    "Collecting points from cluster"
+    N=X.shape[0]
+    for i in range(N):
+        if labels[i]==a: clustera.append(X[i].copy())
+        elif labels[i]==b: clusterb.append(X[i].copy())
+
+
+    "Computing total distance"
+    total_dist=0
+    A,B=len(clustera),len(clusterb)
+
+    for i in range(A):
+        for j in range(B):
+            dist=float(np.sqrt(calculate_squared_euclidean_distance(clustera[i],clusterb[j])))
+            total_dist+=dist
+
+    return float(total_dist / (A*B))
 
 
 def lance_williams_update(d_ac: float, d_bc: float, d_ab: float,
