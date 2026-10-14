@@ -77,12 +77,37 @@ def calculate_squared_euclidean_distance(x_q: np.ndarray, x_r: np.ndarray) -> fl
 # calculate_squared_euclidean_distance(x,y)
 
 
-
+# -------------------------     Q-2          -----------------------------------
 def build_assignment_indicator_matrix(X: np.ndarray, C: np.ndarray) -> np.ndarray:
-    # TODO Task 2
-    raise NotImplementedError
+    a,b=X.shape     # N x D matrix
+    c,d=C.shape     # K x D matrix
+
+    distances=[[0]*c for _ in range(a)]
+    # print(distances)
+
+    for i in range(a):
+        for j in range(c):
+            distances[i][j]=float(calculate_squared_euclidean_distance(X[i],C[j]))
+    # print(distances)
+
+    cluster=[[0]*c for _ in range(a)]
+    for i in range(a):
+        mn=min(distances[i])
+
+        for j in range(c):
+            if distances[i][j]==mn: 
+                cluster[i][j]=1
+                break
+
+    # print(cluster)
+    cluster=np.array(cluster,int)
+    return cluster
+
 ## ---- Testing Task-02     -----
-X,C=get_task2_inputs()
+# X,C=get_task2_inputs()
+# print(f"X:{X}\nC:{C}")
+# res=build_assignment_indicator_matrix(X,C)
+
 
 
 def update_cluster_centroids(X: np.ndarray, assignments: np.ndarray, K: int) -> np.ndarray:
