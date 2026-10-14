@@ -250,10 +250,10 @@ def compute_single_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int, b
     return min_dist
 
 ## ---- Testing Task-07     -----
-X,labels,a,b=get_task7_inputs()
+# X,labels,a,b=get_task7_inputs()
 # print(f"{X.shape,labels,a,b}")
-print(X)
-compute_single_linkage_distance(X,labels,a,b)
+# print(X)
+# compute_single_linkage_distance(X,labels,a,b)
 
 # -------------------------     Q-8          -----------------------------------
 def compute_complete_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int, b: int) -> float:
@@ -277,7 +277,6 @@ def compute_complete_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int,
 
     return max_dist
 
-    
 
 # -------------------------     Q-9          -----------------------------------
 def compute_average_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int, b: int) -> float:
@@ -303,13 +302,29 @@ def compute_average_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int, 
     return float(total_dist / (A*B))
 
 
+# -------------------------     Q-10          -----------------------------------
 def lance_williams_update(d_ac: float, d_bc: float, d_ab: float,
                           n_a: int, n_b: int, n_c: int, linkage: str) -> float:
     """Return the updated dissimilarity as a float without printing.
 
     Ward inputs/output are squared dissimilarities; see the task coefficients."""
-    # TODO Task 10
-    raise NotImplementedError
+    if linkage=='single': 
+        alpha_a,alpha_b,beta,gamma=0.5,0.5,0,-0.5
+    elif linkage=='complete':
+        alpha_a,alpha_b,beta,gamma=0.5,0.5,0,0.5
+    elif linkage=='average':
+        beta=gamma=0
+        alpha_a = (n_a)/(n_a+n_b)
+        alpha_b = (n_b)/(n_a+n_b)
+    elif linkage=='ward':
+        gamma=0
+        T=n_a+n_b+n_c
+
+        alpha_a,alpha_b = (n_a+n_c)/T,(n_b+n_c)/T
+        beta=-n_c/T
+    else: raise ValueError
+
+    return alpha_a*d_ac + alpha_b*d_bc + beta*d_ab + gamma*abs(d_ac-d_bc)
 
 
 def count_clusters_at_dendrogram_cut(merge_distances: np.ndarray, cut_height: float) -> int:
