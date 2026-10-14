@@ -59,14 +59,30 @@ def load_dataset(name: str): return get_laboratory_dataset(name)
 # -----------------------------------------------------------------------------
 # Part I: foundational components
 # -----------------------------------------------------------------------------
+
+# -------------------------     Q-1          -----------------------------------
 def calculate_squared_euclidean_distance(x_q: np.ndarray, x_r: np.ndarray) -> float:
-    # TODO Task 1
-    raise NotImplementedError
+    ans=0
+    n=x_q.shape[0]
+
+    for i in range(n):
+        ans+=(abs(x_q[i] - x_r[i]))**2
+
+    # print(ans)
+    return ans
+
+## ---- Testing Task-01     -----
+# x,y=get_task1_inputs()
+# print(f"X:{x}\nY:{y}")
+# calculate_squared_euclidean_distance(x,y)
+
 
 
 def build_assignment_indicator_matrix(X: np.ndarray, C: np.ndarray) -> np.ndarray:
     # TODO Task 2
     raise NotImplementedError
+## ---- Testing Task-02     -----
+X,C=get_task2_inputs()
 
 
 def update_cluster_centroids(X: np.ndarray, assignments: np.ndarray, K: int) -> np.ndarray:
