@@ -185,18 +185,47 @@ def compute_kmeans_distortion(X: np.ndarray, C: np.ndarray, labels: np.ndarray) 
 def initialize_kmeans_plus_plus(X: np.ndarray, K: int, seed: int = 42) -> np.ndarray:
     raise NotImplementedError
 
-
-
-        
+ 
 ## ---- Testing Task-05     -----
-X,K,seed=get_task5_inputs()
-initialize_kmeans_plus_plus(X,K,seed)
+# X,K,seed=get_task5_inputs()
+# initialize_kmeans_plus_plus(X,K,seed)
 
 
-
+# -------------------------     Q-6          -----------------------------------
 def mini_batch_centroid_update(X: np.ndarray, C: np.ndarray, batch_indices: np.ndarray, counts: np.ndarray) -> tuple:
-    # TODO Task 6
-    raise NotImplementedError
+    C=C.copy()
+    counts=counts.copy()
+
+    N,D=X.shape
+    K,D=C.shape
+    for idx in batch_indices:
+        x=X[idx]
+
+        "Finding cluster to which the centroid belongs"
+        min_dist=float('inf')
+        cluster=-1
+
+        for i in range(K):
+            dist=float(calculate_squared_euclidean_distance(x,C[i]))
+
+            if dist<min_dist:
+                min_dist=dist
+                cluster=i
+
+        # Update count
+        counts[cluster]+=1
+
+        # Update Centroid
+        for i in range(D):
+            C[cluster][i] += (X[idx][i] - C[cluster][i]) / counts[cluster]
+
+    return (C,counts)
+
+## ---- Testing Task-06     -----
+X,C,idx,count=get_task6_inputs()
+mini_batch_centroid_update(X,C,idx,count)
+
+# print(f"{X.shape,C.shape,idx,count}")
 
 
 
