@@ -173,17 +173,24 @@ def compute_kmeans_distortion(X: np.ndarray, C: np.ndarray, labels: np.ndarray) 
     J=0
     for i in range(N):
         J+=float(calculate_squared_euclidean_distance(X[i],C[labels[i]]))
-        # print(J)
+        
     # print(J)
     return J
 
-## ---- Testing Task-03     -----
+## ---- Testing Task-04     -----
 # X,C,labels=get_task4_inputs()
 # compute_kmeans_distortion(X,C,labels)
 
+# -------------------------     Q-5          -----------------------------------
 def initialize_kmeans_plus_plus(X: np.ndarray, K: int, seed: int = 42) -> np.ndarray:
-    rng=np.random.default_rng(seed)     #
+    raise NotImplementedError
 
+
+
+        
+## ---- Testing Task-05     -----
+X,K,seed=get_task5_inputs()
+initialize_kmeans_plus_plus(X,K,seed)
 
 
 
