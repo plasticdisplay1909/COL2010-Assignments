@@ -326,14 +326,19 @@ def lance_williams_update(d_ac: float, d_bc: float, d_ab: float,
 
     return alpha_a*d_ac + alpha_b*d_bc + beta*d_ab + gamma*abs(d_ac-d_bc)
 
-
+# -------------------------     Q-11          -----------------------------------
 def count_clusters_at_dendrogram_cut(merge_distances: np.ndarray, cut_height: float) -> int:
     """Return the cluster count as an int without printing.
 
     Use the complete binary merge history; include heights equal to the cut."""
-    # TODO Task 11
-    raise NotImplementedError
+    if len(merge_distances)<1: return 1
 
+    count=np.sum(merge_distances<=cut_height)
+    return int(len(merge_distances))+1-count
+
+## ---- Testing Task-11     -----
+dist,cut=get_task11_inputs()
+# print(f"{dist,cut}")
 
 def compute_mean_silhouette_score(X: np.ndarray, labels: np.ndarray) -> float:
     """Return the mean Euclidean silhouette as a float without printing.
