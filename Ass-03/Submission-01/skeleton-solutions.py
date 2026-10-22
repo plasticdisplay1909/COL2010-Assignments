@@ -340,6 +340,8 @@ def count_clusters_at_dendrogram_cut(merge_distances: np.ndarray, cut_height: fl
 # dist,cut=get_task11_inputs()
 # print(f"{dist,cut}")
 
+
+# -------------------------     Q-12          -----------------------------------
 def compute_mean_silhouette_score(X: np.ndarray, labels: np.ndarray) -> float:
     """Return the mean Euclidean silhouette as a float without printing.
 
@@ -391,17 +393,36 @@ def compute_mean_silhouette_score(X: np.ndarray, labels: np.ndarray) -> float:
 
 
 ## ---- Testing Task-12     -----
-X,labels=get_task12_inputs()
-res=compute_mean_silhouette_score(X,labels)
-print(res)
+# X,labels=get_task12_inputs()
+# res=compute_mean_silhouette_score(X,labels)
+# print(res)
 
-
+# -------------------------     Q-13          -----------------------------------
 def compute_cluster_purity(contingency: np.ndarray) -> float:
     """Return cluster purity as a float without printing.
 
     Rows=predicted clusters, columns=true classes; a zero total gives zero."""
-    # TODO Task 13
-    raise NotImplementedError
+
+    N,D=contingency.shape
+
+    purity=0.0
+    total_sum=0
+    for i in range(N):
+        mx=float('-inf')
+        for j in range(D):
+            mx=max(mx,contingency[i][j])
+            total_sum+=contingency[i][j]
+
+        purity+=mx
+
+    if total_sum==0: return 0.0
+    return float(purity/total_sum)
+
+## ---- Testing Task-13     -----
+# contigency=get_task13_inputs()
+# res=compute_cluster_purity(contigency)
+# print(res)
+
 
 
 def compute_normalized_mutual_information(contingency: np.ndarray) -> float:
