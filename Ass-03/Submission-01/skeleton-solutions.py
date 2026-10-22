@@ -185,7 +185,7 @@ def compute_kmeans_distortion(X: np.ndarray, C: np.ndarray, labels: np.ndarray) 
 def initialize_kmeans_plus_plus(X: np.ndarray, K: int, seed: int = 42) -> np.ndarray:
     raise NotImplementedError
 
- 
+
 ## ---- Testing Task-05     -----
 # X,K,seed=get_task5_inputs()
 # initialize_kmeans_plus_plus(X,K,seed)
@@ -304,7 +304,7 @@ def compute_average_linkage_distance(X: np.ndarray, labels: np.ndarray, a: int, 
 
 # -------------------------     Q-10          -----------------------------------
 def lance_williams_update(d_ac: float, d_bc: float, d_ab: float,
-                          n_a: int, n_b: int, n_c: int, linkage: str) -> float:
+                        n_a: int, n_b: int, n_c: int, linkage: str) -> float:
     """Return the updated dissimilarity as a float without printing.
 
     Ward inputs/output are squared dissimilarities; see the task coefficients."""
@@ -424,22 +424,85 @@ def compute_cluster_purity(contingency: np.ndarray) -> float:
 # print(res)
 
 
-
+# -------------------------     Q-14          -----------------------------------
 def compute_normalized_mutual_information(contingency: np.ndarray) -> float:
     """Return geometric NMI as a float without printing.
 
     Empty total: 0; both entropies zero: 1; just one zero: 0."""
-    # TODO Task 14
-    raise NotImplementedError
+
+    total_count=0
+    N,D=contingency.shape
+
+    # FUck it I am using four O(n*2) loops I am confusing all
+    for i in range(N):
+        for j in range(D):
+            total_count+=contingency[i][j]
+
+    if total_count==0: return 0.0
+
+    p=contingency/total_count
+
+    # Computation of pk
+    p_k=[0]*N
+    H_C=0
+    for i in range(N):
+        for j in range(D):
+            p_k[i]+=p[i][j]
+
+        if p_k[i]>0: H_C += p_k[i]*np.log(p_k[i])
+
+    H_C=-H_C
+
+    # Computation of pj
+    p_j=[0]*D
+    H_Y=0
+    for i in range(D):
+        for j in range(N):
+            p_j[i]+=p[j][i]
+
+        if p_j[i]>0: H_Y += p_j[i]*np.log(p_j[i])
+    H_Y=-H_Y
+
+    if H_C==0 and H_Y==0: return 1.0
+    if H_C==0 or H_Y==0: return 0.0
+
+    I=0
+    for k in range(N):
+        for j in range(D):
+            if p[k][j]>0: I+= p[k][j] * np.log(p[k][j] / (p_k[k] * p_j[j]))
+
+    return float(np.clip(I / np.sqrt(H_C * H_Y),0.0,1.0))
 
 
+## ---- Testing Task-14     -----
+# cont=get_task14_inputs()
+# print(compute_normalized_mutual_information(cont))
+
+
+# -------------------------     Q-15          -----------------------------------
 def compute_rand_index(labels_true: np.ndarray, labels_pred: np.ndarray) -> float:
     """Return the Rand index as a float without printing.
 
     Count unordered pair agreements; return 1.0 for fewer than two rows."""
-    # TODO Task 15
-    raise NotImplementedError
+    N=labels_true.shape[0]
 
+    if N<2: return 1.0
+    agree=0
+
+    for i in range(N):
+        for j in range(i+1,N):
+            cond1= labels_true[i] == labels_true[j]
+            cond2= labels_pred[i] == labels_pred[j]
+
+            if cond1==cond2: agree+=1
+
+    total= N*(N-1)/2
+
+    return float(agree/total)
+
+## ---- Testing Task-15     -----
+# label_true,label_pred=get_task15_inputs()
+# compute_rand_index(label_true,label_pred)
 
 def classify_dbscan_points(X: np.ndarray, eps: float, min_pts: int) -> np.ndarray:
     """Return an integer array of shape (N,) without printing.
@@ -471,7 +534,7 @@ def compute_birch_cf_statistics(X: np.ndarray) -> tuple:
 # Part II: complete algorithms
 # -----------------------------------------------------------------------------
 def custom_kmeans_clustering(X: np.ndarray, K: int, max_iters: int = 100,
-                             seed: int = 42, init: str = 'kmeans++') -> tuple:
+                            seed: int = 42, init: str = 'kmeans++') -> tuple:
     # TODO Task 19
     raise NotImplementedError
 
@@ -499,7 +562,7 @@ def custom_birch_clustering(X: np.ndarray, K: int, threshold: float, seed: int =
 
 
 def run_clustering_laboratory(X: np.ndarray, labels_true: np.ndarray, K: int,
-                              dbscan_eps: float, dbscan_min_pts: int,
-                              birch_threshold: float = 0.75, seed: int = 42) -> dict:
+                            dbscan_eps: float, dbscan_min_pts: int,
+                            birch_threshold: float = 0.75, seed: int = 42) -> dict:
     # TODO Task 24
     raise NotImplementedError
