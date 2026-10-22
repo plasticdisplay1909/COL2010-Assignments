@@ -337,15 +337,63 @@ def count_clusters_at_dendrogram_cut(merge_distances: np.ndarray, cut_height: fl
     return int(len(merge_distances))+1-count
 
 ## ---- Testing Task-11     -----
-dist,cut=get_task11_inputs()
+# dist,cut=get_task11_inputs()
 # print(f"{dist,cut}")
 
 def compute_mean_silhouette_score(X: np.ndarray, labels: np.ndarray) -> float:
     """Return the mean Euclidean silhouette as a float without printing.
 
     Singleton/one-cluster scores are zero; treat -1 as an ordinary cluster."""
-    # TODO Task 12
-    raise NotImplementedError
+    unique_labels=set(labels)
+    n=len(set(labels))                      ## Number of unique cluster
+
+    # Case of singleton cluster 
+    if n<=1: return float(0.0)
+
+    # Number of unique labels of each type
+    count={}
+    for i in labels:
+        if i not in count: count[i]=1
+        else: count[i]+=1
+
+    N,D=X.shape
+
+    S=0
+    for i in range(N):
+        # Singleton cluster
+        if count[labels[i]]==1: continue
+
+        distance={}
+        for j in range(N):
+            if i==j: continue
+
+            dist=np.sqrt(calculate_squared_euclidean_distance(X[i],X[j]))
+
+            if labels[j] not in distance:
+                distance[labels[j]] = [dist,1]      # Total dist, number of points
+            else:
+                distance[labels[j]][0]+=dist
+                distance[labels[j]][1]+=1
+
+        b=float('inf')
+        for lab, (dist,points) in distance.items():
+            if lab==labels[i]:
+                if points==0: continue
+                else: a=float(dist/points)
+            else: b=min(b, dist/points)
+
+        if a==0 and b==0: continue
+        else:
+            a,b=float(a),float(b)
+            S += (b-a)/max(a,b)
+
+    return float(S/N)
+
+
+## ---- Testing Task-12     -----
+X,labels=get_task12_inputs()
+res=compute_mean_silhouette_score(X,labels)
+print(res)
 
 
 def compute_cluster_purity(contingency: np.ndarray) -> float:
