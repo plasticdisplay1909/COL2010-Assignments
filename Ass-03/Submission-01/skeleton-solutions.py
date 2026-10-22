@@ -504,13 +504,33 @@ def compute_rand_index(labels_true: np.ndarray, labels_pred: np.ndarray) -> floa
 # label_true,label_pred=get_task15_inputs()
 # compute_rand_index(label_true,label_pred)
 
+# -------------------------     Q-16          -----------------------------------
 def classify_dbscan_points(X: np.ndarray, eps: float, min_pts: int) -> np.ndarray:
     """Return an integer array of shape (N,) without printing.
 
     Use 2=core, 1=border, 0=noise; include self-neighbours and eps boundaries."""
-    # TODO Task 16
-    raise NotImplementedError
+    N,D=X.shape
+    points=[1]*N        ## Computes number of points in epsilon neighbour, including itself
 
+    for i in range(N):
+        for j in range(i+1,N):
+            dist=float(np.sqrt(calculate_squared_euclidean_distance(X[i],X[j])))
+
+            if dist<=eps:
+                points[i]+=1
+                points[j]+=1
+
+    for i in range(N):
+        if points[i]>=min_pts: points[i]=2              # COre point 
+        elif points[i]<min_pts and points[i]>1: points[i]=1     # Border
+        else: points[i]=0       # Noise
+
+    points=np.array(points,dtype=int)
+    return points
+
+## ---- Testing Task-16     -----
+# X,eps,min_pts=get_task16_inputs()
+# res=classify_dbscan_points(X,eps,min_pts)
 
 
 def compute_pca_projection(X: np.ndarray, n_components: int = 2) -> np.ndarray:
@@ -526,8 +546,10 @@ def compute_birch_cf_statistics(X: np.ndarray) -> tuple:
 
     N is an int, LS/centroid are (D,) arrays, SS/radius are floats.
     A centered RMS radius is permitted."""
-    # TODO Task 18
-    raise NotImplementedError
+    N,D=X.shape
+
+    
+    return N,
 
 
 # -----------------------------------------------------------------------------
