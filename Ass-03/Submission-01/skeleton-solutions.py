@@ -532,7 +532,7 @@ def classify_dbscan_points(X: np.ndarray, eps: float, min_pts: int) -> np.ndarra
 # X,eps,min_pts=get_task16_inputs()
 # res=classify_dbscan_points(X,eps,min_pts)
 
-
+# -------------------------     Q-17          -----------------------------------
 def compute_pca_projection(X: np.ndarray, n_components: int = 2) -> np.ndarray:
     """Return PCA coordinates of shape (N, n_components) without printing.
 
@@ -540,7 +540,7 @@ def compute_pca_projection(X: np.ndarray, n_components: int = 2) -> np.ndarray:
     # TODO Task 17
     raise NotImplementedError
 
-
+# -------------------------     Q-18          -----------------------------------
 def compute_birch_cf_statistics(X: np.ndarray) -> tuple:
     """Return (N, LS, SS, centroid, radius) without printing.
 
@@ -548,9 +548,29 @@ def compute_birch_cf_statistics(X: np.ndarray) -> tuple:
     A centered RMS radius is permitted."""
     N,D=X.shape
 
-    
-    return N,
+    LS=[0]*D
+    SS=0
+    for i in range(D):
+        for j in range(N):
+            LS[i]+=X[j][i]
+            SS+=(X[j][i])**2
 
+    
+    LS=np.array(LS, dtype=float)
+    centroid=LS/N
+
+    R=0
+    for i in range(N):
+        R+=calculate_squared_euclidean_distance(X[i],centroid)
+
+    R/=N
+    R=float(np.sqrt(R))
+    return N,LS,SS,centroid,R
+
+
+## ---- Testing Task-18     -----
+# X=get_task18_inputs()
+# compute_birch_cf_statistics(X)
 
 # -----------------------------------------------------------------------------
 # Part II: complete algorithms
