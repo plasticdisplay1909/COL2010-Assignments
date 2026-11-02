@@ -1,0 +1,232 @@
+[
+  {
+    "name": "gaussian_independent",
+    "n": 1000,
+    "features": 2,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Gaussian NB assumptions hold; linear boundary and limited-training-size comparison.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "gaussian_correlated",
+    "n": 1000,
+    "features": 10,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Paired with gaussian_independent: duplicated evidence violates NB independence; compare F1 and log loss.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "gaussian_unequal_variance",
+    "n": 1000,
+    "features": 2,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Same class means, different variances: Gaussian NB has a curved boundary; linear log-odds models underfit.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "moons",
+    "n": 1000,
+    "features": 2,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Nonlinear boundary: ordinary K-NN and RBF SVM versus linear logistic/SVM.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "circles",
+    "n": 1000,
+    "features": 2,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Radial geometry: linear boundaries fail; compare RBF gamma and local neighborhoods.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "scale_distortion",
+    "n": 1000,
+    "features": 2,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Same rows/labels as gaussian_independent: raw versus training-standardized distances.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "irrelevant_dimensions",
+    "n": 1000,
+    "features": 82,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Same signal and row split as gaussian_independent: effect of 80 irrelevant coordinates on K-NN and regularized models.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "axis_aligned_rules",
+    "n": 1000,
+    "features": 2,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Two threshold rules with 5% label noise: tree interpretability, depth, pruning and forest variance.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "imbalanced",
+    "n": 1000,
+    "features": 4,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "Synthetic; generated locally",
+    "purpose": "Approximately 5% positives: majority baseline, accuracy versus precision/recall/F1 and validation threshold tuning.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "bernoulli_binary",
+    "n": 1000,
+    "features": 24,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "binary",
+    "source": "Synthetic; generated locally",
+    "purpose": "Binary occurrence features: Bernoulli NB including absent-feature evidence and Laplace smoothing.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  },
+  {
+    "name": "breast_cancer",
+    "n": 569,
+    "features": 30,
+    "classes": [
+      0,
+      1
+    ],
+    "kind": "continuous",
+    "source": "scikit-learn bundled breast_cancer dataset; no download required",
+    "purpose": "Real binary measurements; correlated features, scaling and minority errors.",
+    "sizes": {
+      "train": 341,
+      "validation": 114,
+      "test": 114
+    }
+  },
+  {
+    "name": "wine",
+    "n": 178,
+    "features": 13,
+    "classes": [
+      0,
+      1,
+      2
+    ],
+    "kind": "continuous",
+    "source": "scikit-learn bundled wine dataset; no download required",
+    "purpose": "Real three-class data; multiclass posterior/voting and softmax evaluation.",
+    "sizes": {
+      "train": 106,
+      "validation": 36,
+      "test": 36
+    }
+  },
+  {
+    "name": "digits",
+    "n": 1000,
+    "features": 64,
+    "classes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "kind": "continuous",
+    "source": "scikit-learn bundled digits dataset; no download required",
+    "purpose": "Real ten-class image vectors; geometry, prediction time and multiclass evaluation.",
+    "sizes": {
+      "train": 600,
+      "validation": 200,
+      "test": 200
+    }
+  }
+]
