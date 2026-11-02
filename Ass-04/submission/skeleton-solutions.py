@@ -1,19 +1,86 @@
 from __future__ import annotations
 import numpy as np
 from inputs import *
-from support import safeguarded_newton_update
+# from support import safeguarded_newton_update
 
+## -------------            Task - 01       -----------------  ##
 def confusion_matrix(y_true, y_pred, classes) -> np.ndarray:
-    raise NotImplementedError
+    n=len(classes)
+    classes.sort()
+    matrix=[[0]*n for _ in range(n)]
 
+    dict={}
+    curr=0
+    for i in classes:
+        dict[i]=curr
+        curr+=1
+
+    for i in range(len(y_true)):
+        row=dict[y_true[i]]
+        column=dict[y_pred[i]]
+        matrix[row][column]+=1
+
+    matrix=np.array(matrix,dtype=int)
+    print(matrix)
+    return matrix
+
+## ------       Testing Task 1      ------ 
+# y1,y2,classes=get_task1_inputs()
+
+## -------------            Task - 02       -----------------  ##
 def binary_metrics(y_true,y_pred) -> dict[str, float]:
-    raise NotImplementedError
+    tp,fp,tn,fn=0,0,0,0
+    n=len(y_true)
 
+    # Calculating each indicator
+    for i in range(n):
+        a,b=y_true[i],y_pred[i]
+        if (a==1 and b==1): tp+=1
+        elif (a==1 and b==0): fn+=1
+        elif (a==0 and b==1): fp+=1
+        else: tn+=1
+
+    # Calculation as per assignment
+    acc= (tp+tn) / n if n!=0 else 0.0
+    prec= (tp)/(tp+fp) if (tp+fp)!=0 else 0.0
+    recall=(tp)/(tp+fn) if (tp+fn)!=0 else 0.0
+    f1= (2*tp) / (2*tp+fp+fn) if (2*tp+fp+fn)!=0 else 0.0
+
+    # Output
+    return {
+        'accuracy':acc,
+        'precision':prec,
+        'recall':recall,
+        'f1':f1
+    }
+
+## ------       Testing Task 2      ------ 
+# y1,y2,classes=get_task1_inputs()
+# print(y1,y2)
+# binary_metrics(y1,y2)
+
+## -------------            Task - 03       -----------------  ##
 def standardize_train_apply(X_train,X_other) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    raise NotImplementedError
+    mean=np.mean(X_train,axis=0)
+    scale=np.std(X_train,axis=0,ddof=0)
+
+    # Avoid division by zero
+    scale=np.where(scale==0,1.0,scale)
+
+    # Standardize training data
+    X_train_std= (X_train - mean) / scale
+    X_other_std =(X_other - mean) / scale
+
+    return X_train_std, X_other_std,mean,scale
+## ------       Testing Task 3      ------ 
+# X,Y=get_task3_inputs()
+# print(X,Y)
 
 def knn_posterior(x,X_train,y_train,K,classes) -> np.ndarray:
     raise NotImplementedError
+
+x,x_train,y_train,K,classes=get_task4_inputs()
+print(y_train.shape)
 
 def bayes_and_one_nn_error(p) -> tuple[np.ndarray, np.ndarray]:
     raise NotImplementedError
