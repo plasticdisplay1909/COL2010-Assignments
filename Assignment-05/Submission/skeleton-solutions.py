@@ -15,7 +15,8 @@ def mse(y: np.ndarray, y_pred: np.ndarray) -> float:
     return float(np.mean((y-y_pred)**2))
 
 def ols(Phi: np.ndarray, y: np.ndarray) -> np.ndarray:
-    return 
+    print("meow")
+    return
 
 def projection_diagnostics(Phi: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
     raise NotImplementedError("Implement this task")
