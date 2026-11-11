@@ -27,10 +27,29 @@ def projection_diagnostics(Phi: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, 
     return y_pred,residual,float(violation)
 
 def ridge(Phi: np.ndarray, y: np.ndarray, lam: float) -> np.ndarray:
-    raise NotImplementedError("Implement this task")
+    N,M=Phi.shape
+
+    ## Create identity matrix
+    P=np.eye(M)
+    P[0,0]=0        ## Remove intercept penalty
+
+    # Solves linear system
+    return np.linalg.solve(Phi.T @ Phi + lam*P,Phi.T @ y)
+
 
 def split_indices(n: int, train_fraction: float, val_fraction: float, seed: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    raise NotImplementedError("Implement this task")
+    rng=np.random.default_rng(seed)
+
+    idx=rng.permutation(n)
+
+    n_train=int(np.floor(n*train_fraction))
+    n_val=int(np.floor(n*val_fraction))
+
+    train_idx=idx[:n_train]
+    val_idx=idx[n_train:n_train+n_val]
+    test_idx=idx[n_train+n_val:]
+
+    return train_idx,val_idx,test_idx
 
 def standardize(X: np.ndarray, eps: float = 1e-8) -> np.ndarray:
     raise NotImplementedError("Implement this task")
