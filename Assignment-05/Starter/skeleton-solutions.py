@@ -1,0 +1,39 @@
+"""COL2010 Regression HW5: complete the eleven functions. Do not change signatures."""
+import numpy as np
+
+def design_matrix(X: np.ndarray, degree: int) -> np.ndarray:
+    raise NotImplementedError("Implement this task")
+
+def predict(Phi: np.ndarray, w: np.ndarray) -> np.ndarray:
+    raise NotImplementedError("Implement this task")
+
+def mse(y: np.ndarray, y_pred: np.ndarray) -> float:
+    raise NotImplementedError("Implement this task")
+
+def ols(Phi: np.ndarray, y: np.ndarray) -> np.ndarray:
+    raise NotImplementedError("Implement this task")
+
+def projection_diagnostics(Phi: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
+    raise NotImplementedError("Implement this task")
+
+def ridge(Phi: np.ndarray, y: np.ndarray, lam: float) -> np.ndarray:
+    raise NotImplementedError("Implement this task")
+
+def split_indices(n: int, train_fraction: float, val_fraction: float, seed: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    raise NotImplementedError("Implement this task")
+
+def standardize(X: np.ndarray, eps: float = 1e-8) -> np.ndarray:
+    raise NotImplementedError("Implement this task")
+
+normalize_features = standardize
+feature_normalization = standardize
+
+def select_degree(x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray, degrees: tuple[int, ...]) -> tuple[int, np.ndarray]:
+    raise NotImplementedError("Implement this task")
+
+def select_ridge(x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray, degree: int, lambdas: tuple[float, ...]) -> tuple[float, np.ndarray]:
+    raise NotImplementedError("Implement this task")
+
+def learning_curve(x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray, degree: int, sizes: tuple[int, ...], seed: int) -> tuple[np.ndarray, np.ndarray]:
+    raise NotImplementedError("Implement this task")
+
