@@ -82,11 +82,46 @@ def select_degree(x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y
         error.append(mse(y_val,y_pred))
 
     best_idx=np.argmin(error)
-    return int(degrees(best_idx)),np.array(error)
+    return int(degrees[best_idx]),np.array(error)
 
 def select_ridge(x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray, degree: int, lambdas: tuple[float, ...]) -> tuple[float, np.ndarray]:
-    raise NotImplementedError("Implement this task")
+    phi_train=design_matrix(x_train,degree)
+    phi_val=design_matrix(x_val,degree)
+
+    error=[]
+    for x in lambdas:
+        # Find ridge
+        w=ridge(phi_train,y_train,x)
+
+        # Predict validation values
+        y_pred=predict(phi_val,w)
+        error.append(mse(y_val,y_pred))
+
+    best_idx=np.argmin(error)
+    return float(lambdas[best_idx]),np.array(error)
 
 def learning_curve(x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray, degree: int, sizes: tuple[int, ...], seed: int) -> tuple[np.ndarray, np.ndarray]:
-    raise NotImplementedError("Implement this task")
+    rng=np.random.default_rng(seed)
+
+    n=len(x_train)
+    index=rng.permutation(n)
+
+    error_train,error_val=[],[]
+
+    for x in sizes:
+        idx=index[:x]
+
+        x_sub,y_sub=x_train[idx],y_train[idx]
+
+        # Create design matrics
+        phi_train,phi_val=design_matrix(x_sub,degree),design_matrix(x_val,degree)
+
+        w=ols(phi_train,y_sub)
+        train_pred=predict(phi_train,w)
+        val_pred=predict(phi_val,w)
+
+        error_train.append(mse(y_sub,train_pred))
+        error_val.append(mse(y_val,val_pred))
+
+    return np.array(error_train),np.array(error_val)
 
