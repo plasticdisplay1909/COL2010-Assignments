@@ -1,8 +1,13 @@
 """COL2010 Regression HW5: complete the eleven functions. Do not change signatures."""
 import numpy as np
+from inputs import *
 
 def design_matrix(X: np.ndarray, degree: int) -> np.ndarray:
-    raise NotImplementedError("Implement this task")
+    phi=np.ones((len(X),degree+1))
+
+    for i in range(degree+1):
+        phi[:,i]=X**i
+    return phi
 
 def predict(Phi: np.ndarray, w: np.ndarray) -> np.ndarray:
     raise NotImplementedError("Implement this task")
