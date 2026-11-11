@@ -52,13 +52,37 @@ def split_indices(n: int, train_fraction: float, val_fraction: float, seed: int)
     return train_idx,val_idx,test_idx
 
 def standardize(X: np.ndarray, eps: float = 1e-8) -> np.ndarray:
-    raise NotImplementedError("Implement this task")
+    # Calculate mean and std except first column
+    mean=np.mean(X[:,1:], axis=0)
+    std=np.std(X[:,1:],axis=0)
+
+    # Standardization as asked in the question
+    X_new=X.copy()      # To not modify the input array
+    X_new[:,1:]=(X[:,1:] - mean) / (std+eps)        # Eps used to avoid division by zero
+
+    return X_new
 
 normalize_features = standardize
 feature_normalization = standardize
 
 def select_degree(x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray, degrees: tuple[int, ...]) -> tuple[int, np.ndarray]:
-    raise NotImplementedError("Implement this task")
+    error=[]
+
+    for d in degrees:
+        # Create training,validation matrix
+        phi_train=design_matrix(x_train,d)
+        phi_val=design_matrix(x_val,d)
+
+        # Find ols
+        w=ols(phi_train,y_train)
+
+        # Predict validation values
+        y_pred=predict(phi_val,w)
+
+        error.append(mse(y_val,y_pred))
+
+    best_idx=np.argmin(error)
+    return int(degrees(best_idx)),np.array(error)
 
 def select_ridge(x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray, degree: int, lambdas: tuple[float, ...]) -> tuple[float, np.ndarray]:
     raise NotImplementedError("Implement this task")
