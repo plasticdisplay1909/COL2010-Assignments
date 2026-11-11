@@ -15,11 +15,16 @@ def mse(y: np.ndarray, y_pred: np.ndarray) -> float:
     return float(np.mean((y-y_pred)**2))
 
 def ols(Phi: np.ndarray, y: np.ndarray) -> np.ndarray:
-    print("meow")
-    return
+    return np.linalg.lstsq(Phi,y,rcond=None)[0]
 
 def projection_diagnostics(Phi: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, np.ndarray, float]:
-    raise NotImplementedError("Implement this task")
+    w=ols(Phi,y)
+    y_pred=predict(Phi,w)
+
+    residual=y-y_pred
+    violation=np.max(np.abs(Phi.T @ residual))
+
+    return y_pred,residual,float(violation)
 
 def ridge(Phi: np.ndarray, y: np.ndarray, lam: float) -> np.ndarray:
     raise NotImplementedError("Implement this task")
