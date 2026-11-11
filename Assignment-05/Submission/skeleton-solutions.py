@@ -1,6 +1,5 @@
 """COL2010 Regression HW5: complete the eleven functions. Do not change signatures."""
 import numpy as np
-from inputs import *
 
 def design_matrix(X: np.ndarray, degree: int) -> np.ndarray:
     phi=np.ones((len(X),degree+1))
@@ -10,10 +9,10 @@ def design_matrix(X: np.ndarray, degree: int) -> np.ndarray:
     return phi
 
 def predict(Phi: np.ndarray, w: np.ndarray) -> np.ndarray:
-    raise NotImplementedError("Implement this task")
+    return Phi@w
 
 def mse(y: np.ndarray, y_pred: np.ndarray) -> float:
-    raise NotImplementedError("Implement this task")
+    return float(np.mean((y-y_pred)**2))
 
 def ols(Phi: np.ndarray, y: np.ndarray) -> np.ndarray:
     raise NotImplementedError("Implement this task")
