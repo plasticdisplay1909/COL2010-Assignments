@@ -51,7 +51,18 @@ def standardize_train_apply(X_train,X_other) -> tuple[np.ndarray, np.ndarray, np
     return X_train,X_other,mean,scale
 
 def knn_posterior(x,X_train,y_train,K,classes) -> np.ndarray:
-    raise NotImplementedError
+    # Calculate Euclidian distance
+    distance=np.linalg.norm(X_train-x,axis=1)
+
+    # Find k-nearest neighbours
+    near_idx=np.argsort(distance,kind='stable')[:K]
+    near_label=y_train[near_idx]
+
+    # Caluclating probability
+    prob=np.array([np.sum(near_label==c)/K for c in classes],dtype=float)
+
+# a,b,c,d,e=get_task4_inputs()
+# knn_posterior(a,b,c,d,e)
 
 def bayes_and_one_nn_error(p) -> tuple[np.ndarray, np.ndarray]:
     raise NotImplementedError
