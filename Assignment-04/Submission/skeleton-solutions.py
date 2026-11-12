@@ -36,8 +36,19 @@ def binary_metrics(y_true,y_pred) -> dict[str, float]:
         'f1': helper(2*TP,2*TP+FP+FN)
     }
 
+## ----------------         Task - 03       ----------------- ##
 def standardize_train_apply(X_train,X_other) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    raise NotImplementedError
+    mean=np.mean(X_train,axis=0)
+    scale=np.std(X_train,axis=0,ddof=0)
+
+    # Replace zero std to prevent zero divison
+    scale=np.where(scale==0,1.0,scale)
+
+    # Standardization
+    X_train=(X_train-mean)/scale
+    X_other=(X_other-mean)/scale
+
+    return X_train,X_other,mean,scale
 
 def knn_posterior(x,X_train,y_train,K,classes) -> np.ndarray:
     raise NotImplementedError
