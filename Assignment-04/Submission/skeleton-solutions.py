@@ -71,8 +71,14 @@ def bayes_and_one_nn_error(p) -> tuple[np.ndarray, np.ndarray]:
 
     return bayes_error,one_nn_error
 
+## ----------------         Task - 06       ----------------- ##
 def gaussian_log_likelihood(x,mean,var) -> float:
-    raise NotImplementedError
+    # Standardization of variance to avoid zero division error
+    var=np.maximum(var,1e-9)
+
+    likelihood= np.sum(-(0.5) * np.log(2*np.pi*var) - (x-mean)**2/(2*var))
+
+    return float(likelihood)
 
 def gaussian_nb_parameters(X,y) -> dict[str, np.ndarray]:
     raise NotImplementedError
