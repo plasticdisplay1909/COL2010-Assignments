@@ -3,6 +3,7 @@ import numpy as np
 from inputs import *
 from support import safeguarded_newton_update
 
+## ----------------         Task - 01       ----------------- ##
 def confusion_matrix(y_true, y_pred, classes) -> np.ndarray:
     C=len(classes)
 
@@ -14,8 +15,26 @@ def confusion_matrix(y_true, y_pred, classes) -> np.ndarray:
     np.add.at(matrix,(true_idx,pred_idx),1)
     return matrix
 
+## ----------------         Task - 02       ----------------- ##
 def binary_metrics(y_true,y_pred) -> dict[str, float]:
-    raise NotImplementedError
+    # Calculating each terms
+    TP=np.sum((y_true==1) & (y_pred==1))
+    FP=np.sum((y_true==0) & (y_pred==1))
+
+    TN=np.sum((y_true==0) & (y_pred==0))
+    FN=np.sum((y_true==1) & (y_pred==1))
+
+    def helper(numerator,denominator):
+        "Returns safe divide"
+        if denominator==0: return 0.0
+        return float(numerator/denominator)
+
+    return {
+        'accuracy' : helper(TP+TN,TP+TN+FP+FN),
+        'precision' : helper(TP,TP+FP),
+        'recall' : helper(TP,TP+FN),
+        'f1': helper(2*TP,2*TP+FP+FN)
+    }
 
 def standardize_train_apply(X_train,X_other) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     raise NotImplementedError
