@@ -22,7 +22,7 @@ def binary_metrics(y_true,y_pred) -> dict[str, float]:
     FP=np.sum((y_true==0) & (y_pred==1))
 
     TN=np.sum((y_true==0) & (y_pred==0))
-    FN=np.sum((y_true==1) & (y_pred==1))
+    FN=np.sum((y_true==1) & (y_pred==0))
 
     def helper(numerator,denominator):
         "Returns safe divide"
@@ -50,6 +50,7 @@ def standardize_train_apply(X_train,X_other) -> tuple[np.ndarray, np.ndarray, np
 
     return X_train,X_other,mean,scale
 
+## ----------------         Task - 04       ----------------- ##
 def knn_posterior(x,X_train,y_train,K,classes) -> np.ndarray:
     # Calculate Euclidian distance
     distance=np.linalg.norm(X_train-x,axis=1)
@@ -60,12 +61,15 @@ def knn_posterior(x,X_train,y_train,K,classes) -> np.ndarray:
 
     # Caluclating probability
     prob=np.array([np.sum(near_label==c)/K for c in classes],dtype=float)
+    return prob
 
-# a,b,c,d,e=get_task4_inputs()
-# knn_posterior(a,b,c,d,e)
-
+## ----------------         Task - 05       ----------------- ##
 def bayes_and_one_nn_error(p) -> tuple[np.ndarray, np.ndarray]:
-    raise NotImplementedError
+
+    bayes_error=np.minimum(p,1-p)
+    one_nn_error=2*p*(1-p)
+
+    return bayes_error,one_nn_error
 
 def gaussian_log_likelihood(x,mean,var) -> float:
     raise NotImplementedError
