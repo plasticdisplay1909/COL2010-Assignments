@@ -130,14 +130,26 @@ def stable_sigmoid(z) -> np.ndarray:
 
 ## ----------------         Task - 10       ----------------- ##
 def binary_cross_entropy(y,p) -> float:
-    raise NotImplementedError
+    y=np.array(y,dtype=float)
+    p=np.array(p,dtype=float)
 
+    # Clipping probability
+    p=np.maximum(p,10**-12)
+    p=np.minimum(p,1.0-10**-12)
+
+    N=len(y)
+    count=float(np.sum(y*np.log(p) + (1-y)*np.log(1-p)))
+
+    return float(-count/N)
+
+## ----------------         Task - 11       ----------------- ##
 def logistic_gradient(X,y,w,l2=0.) -> np.ndarray:
     raise NotImplementedError
 
 def logistic_hessian(X,w,l2=0.) -> np.ndarray:
     raise NotImplementedError
 
+## ----------------         Task - 13       ----------------- ##
 def softmax_loss_probabilities(X,W,t) -> tuple[float, np.ndarray]:
     raise NotImplementedError
 
