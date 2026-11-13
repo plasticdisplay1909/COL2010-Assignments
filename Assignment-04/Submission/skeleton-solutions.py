@@ -112,10 +112,23 @@ def bernoulli_nb_parameters(X,y,alpha=1.) -> dict[str, np.ndarray]:
         'prob':prob
     }
 
-
+## ----------------         Task - 09       ----------------- ##
 def stable_sigmoid(z) -> np.ndarray:
-    raise NotImplementedError
+    z=np.array(z,dtype=float)
+    positive= z>=0
+    negative=~positive
 
+    output=np.empty_like(z)
+    print(output)
+
+    # Output
+    output[positive] = 1/(1+np.exp(-z[positive]))
+    output[negative] = np.exp(z[negative]) / (1+np.exp(z[negative]))
+
+    # print(output)
+    return output
+
+## ----------------         Task - 10       ----------------- ##
 def binary_cross_entropy(y,p) -> float:
     raise NotImplementedError
 
