@@ -166,9 +166,26 @@ def svm_primal_objective(X,y_pm1,w,b,C) -> tuple[float, float]:
 
     return hinge_sum,objective
 
+## ----------------         Task - 15       ----------------- ##
 def rbf_kernel(X,Z,gamma) -> np.ndarray:
-    raise NotImplementedError
+    X=np.array(X,dtype=float)
+    Z=np.array(Z,dtype=float)
 
+    N,d=X.shape
+    M,d=Z.shape
+
+    output=np.zeros((N,M),dtype=float)
+
+    for i in range(N):
+        for j in range(M):
+            dist=float(np.sum((X[i]-Z[j])**2))
+
+            output[i][j]=np.exp(-gamma * dist)
+    
+    return np.array(output,dtype=float)
+
+
+## ----------------         Task - 15       ----------------- ##
 def node_impurities(class_counts) -> tuple[float, float]:
     raise NotImplementedError
 
