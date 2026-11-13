@@ -151,10 +151,20 @@ def logistic_hessian(X,w,l2=0.) -> np.ndarray:
 
 ## ----------------         Task - 13       ----------------- ##
 def softmax_loss_probabilities(X,W,t) -> tuple[float, np.ndarray]:
-    raise NotImplementedError
+    pass
 
+## ----------------         Task - 14       ----------------- ##
 def svm_primal_objective(X,y_pm1,w,b,C) -> tuple[float, float]:
-    raise NotImplementedError
+    X=np.array(X,dtype=float)
+    y=np.array(y_pm1,dtype=float)
+    w=np.array(w,dtype=float)
+
+    margin=y*(X@w+b)
+
+    hinge_sum=float(np.sum(np.maximum(0.0,1.0-margin)))
+    objective= float(0.5*float(w@w) + C*hinge_sum)
+
+    return hinge_sum,objective
 
 def rbf_kernel(X,Z,gamma) -> np.ndarray:
     raise NotImplementedError
