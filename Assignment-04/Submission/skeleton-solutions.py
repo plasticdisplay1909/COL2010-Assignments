@@ -1,7 +1,7 @@
 from __future__ import annotations
 import numpy as np
 from inputs import *
-from support import safeguarded_newton_update
+# from support import safeguarded_newton_update
 
 ## ----------------         Task - 01       ----------------- ##
 def confusion_matrix(y_true, y_pred, classes) -> np.ndarray:
@@ -80,11 +80,38 @@ def gaussian_log_likelihood(x,mean,var) -> float:
 
     return float(likelihood)
 
+## ----------------         Task - 07       ----------------- ##
 def gaussian_nb_parameters(X,y) -> dict[str, np.ndarray]:
-    raise NotImplementedError
+    pass
 
+## ----------------         Task - 08       ----------------- ##
 def bernoulli_nb_parameters(X,y,alpha=1.) -> dict[str, np.ndarray]:
-    raise NotImplementedError
+    classes=np.unique(y)
+    N,d=X.shape
+
+    C=len(classes)
+
+    # Initialize probability
+    prior,prob=np.zeros(C,dtype=float), np.zeros((C,d),dtype=float)
+
+    for idx,c in enumerate(classes):
+        # Current class
+        curr=X[y==c]
+        N_curr=len(curr)            # Number of samples
+
+        prior[idx]=N_curr/N         # Prior Probability
+
+        # Feature probability
+        count=np.sum(curr,axis=0)
+        prob[idx]=(count+alpha) / (N_curr + 2*alpha)
+
+    # Output
+    return {
+        'classes' : classes,
+        'prior': prior,
+        'prob':prob
+    }
+
 
 def stable_sigmoid(z) -> np.ndarray:
     raise NotImplementedError
